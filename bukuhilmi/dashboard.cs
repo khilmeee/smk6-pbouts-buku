@@ -30,6 +30,9 @@ namespace bukuhilmi
             
         }
 
+        private Color defaultColor = Color.White;
+        private Color activeColor = Color.LemonChiffon;
+
         private void penjualan_button_open_Click(object sender, EventArgs e)
         {
             dashboard_penjualan penjualanMenu = this.Controls.OfType<dashboard_penjualan>().FirstOrDefault();
@@ -39,6 +42,8 @@ namespace bukuhilmi
                 this.Controls.Add(penjualanMenu);
             }
             penjualanMenu.BringToFront();
+            penjualan_button_open.BackColor = activeColor;
+            buku_button_open.BackColor = defaultColor;
 
         }
 
@@ -51,6 +56,9 @@ namespace bukuhilmi
                 this.Controls.Add(bukuMenu);
             }
             bukuMenu.BringToFront();
+            buku_button_open.BackColor = activeColor;
+            penjualan_button_open.BackColor = defaultColor;
+
         }
     }
 }

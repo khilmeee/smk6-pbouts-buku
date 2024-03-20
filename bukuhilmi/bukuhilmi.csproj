@@ -71,6 +71,18 @@
     <Compile Include="login_form.Designer.cs">
       <DependentUpon>login_form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Penjualan_DialogEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Penjualan_DialogEdit.Designer.cs">
+      <DependentUpon>Penjualan_DialogEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Penjualan_QuestionAdd.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Penjualan_QuestionAdd.Designer.cs">
+      <DependentUpon>Penjualan_QuestionAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="dashboard.resx">
@@ -84,6 +96,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="login_form.resx">
       <DependentUpon>login_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Penjualan_DialogEdit.resx">
+      <DependentUpon>Penjualan_DialogEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Penjualan_QuestionAdd.resx">
+      <DependentUpon>Penjualan_QuestionAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

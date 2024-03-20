@@ -17,5 +17,11 @@ namespace bukuhilmi
         public static string username { get; set; }
         public static string name { get; set; }
         public static int idkasir {  get; set; }
+        public static string penjualan_total_buku { get; set; }
+        public static int idbuku { get; set; }
+        public static int global_harga { get; set; }
+        public static int global_stok_buku { get; set; }
+        public static int idpenjualan { get; set; }
+        public static int penjualan_selectedBuku { get; set; }
     }
 }

@@ -56,6 +56,42 @@ namespace bukuhilmi
             }
         }
 
+        public void insertData()
+        {
+            if (!string.IsNullOrEmpty(input_buku_judul.Text) && !string.IsNullOrEmpty(input_buku_penulis.Text)
+                && !string.IsNullOrEmpty(input_buku_penerbit.Text) && !string.IsNullOrEmpty(input_buku_tahun.Text)
+                && !string.IsNullOrEmpty(input_buku_stok.Text) && !string.IsNullOrEmpty(input_buku_harga.Text))
+            {
+                try
+                {
+                    connection.Close();
+                    connection.Open();
+
+                    string sql = $"INSERT INTO buku (judul,penulis,penerbit,tahun,stok,harga_buku) " +
+                        $"VALUES ('{input_buku_judul.Text}', '{input_buku_penulis.Text}', '{input_buku_penerbit.Text}', " +
+                        $"'{input_buku_tahun.Text}', '{input_buku_stok.Text}', '{input_buku_harga.Text}')";
+                    command = new SqlCommand(sql, connection);
+                    command.ExecuteNonQuery();
+
+                    MessageBox.Show("Berhasil", "informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    clear();
+                    showData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("error:" + ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("isi datanya");
+            }
+        }
+
         public void editData()
         {
             if(dataGridView1.CurrentRow.Selected)
@@ -64,7 +100,7 @@ namespace bukuhilmi
                 && !string.IsNullOrEmpty(input_buku_penerbit.Text) && !string.IsNullOrEmpty(input_buku_tahun.Text)
                 && !string.IsNullOrEmpty(input_buku_stok.Text) && !string.IsNullOrEmpty(input_buku_harga.Text))
                 {
-                    DialogResult result = MessageBox.Show($"anda yakin ingin mengubah data buku ({judul_buku})?","confirm",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show($"anda yakin ingin mengubah data buku (ID: {id_buku} - {judul_buku})?","confirm",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
                     if(result == DialogResult.Yes)
                     {
                         string sql = $"UPDATE buku SET judul = '{input_buku_judul.Text}', penulis = '{input_buku_penulis.Text}'," +
@@ -78,7 +114,7 @@ namespace bukuhilmi
                         {
                             connection.Open();
                             command.ExecuteNonQuery();
-                            MessageBox.Show($"buku ({judul_buku}) berhasil update", "informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show($"buku (ID: {id_buku} - {judul_buku}) berhasil update", "informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             clear();
                             showData();
                         } 
@@ -107,7 +143,7 @@ namespace bukuhilmi
                 && !string.IsNullOrEmpty(input_buku_penerbit.Text) && !string.IsNullOrEmpty(input_buku_tahun.Text)
                 && !string.IsNullOrEmpty(input_buku_stok.Text) && !string.IsNullOrEmpty(input_buku_harga.Text))
                 {
-                    DialogResult result = MessageBox.Show($"Anda yakin ingin menghapus buku ({judul_buku})?", "Confirmation",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show($"Anda yakin ingin menghapus buku (ID: {id_buku} - {judul_buku})?", "Confirmation",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         string sql = $"DELETE FROM buku WHERE id_buku = {id_buku}";
@@ -117,7 +153,7 @@ namespace bukuhilmi
                             connection.Close();
                             connection.Open();
                             command.ExecuteNonQuery();
-                            MessageBox.Show($"Buku ({judul_buku}) berhasil dihapus","Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show($"Buku (ID: {id_buku} - {judul_buku}) berhasil dihapus","Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             reload();
                         }
                         catch(Exception ex)
@@ -196,42 +232,6 @@ namespace bukuhilmi
             showData();
         }
 
-        public void insertData()
-        {
-            if(!string.IsNullOrEmpty(input_buku_judul.Text) && !string.IsNullOrEmpty(input_buku_penulis.Text)
-                && !string.IsNullOrEmpty(input_buku_penerbit.Text) && !string.IsNullOrEmpty(input_buku_tahun.Text)
-                && !string.IsNullOrEmpty(input_buku_stok.Text) && !string.IsNullOrEmpty(input_buku_harga.Text))
-            {
-                try
-                {
-                    connection.Close();
-                    connection.Open();
-
-                    string sql = $"INSERT INTO buku (judul,penulis,penerbit,tahun,stok,harga_buku) " +
-                        $"VALUES ('{input_buku_judul.Text}', '{input_buku_penulis.Text}', '{input_buku_penerbit.Text}', " +
-                        $"'{input_buku_tahun.Text}', '{input_buku_stok.Text}', '{input_buku_harga.Text}')";
-                    command = new SqlCommand(sql, connection);
-                    command.ExecuteNonQuery();
-
-                    MessageBox.Show("Berhasil", "informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    clear();
-                    showData();
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show("error:" + ex);
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            } 
-            else
-            {
-                MessageBox.Show("isi datanya");
-            }
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -279,7 +279,14 @@ namespace bukuhilmi
 
         private void input_buku_tahun_KeyPress(object sender, KeyPressEventArgs e)
         {
+            TextBox textBox = sender as TextBox;
+
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            // Jika karakter pertama adalah angka 0 dan belum ada angka lain dimasukkan sebelumnya
+            else if (e.KeyChar == '0' && textBox.TextLength == 0)
             {
                 e.Handled = true;
             }
@@ -287,7 +294,14 @@ namespace bukuhilmi
 
         private void input_buku_stok_KeyPress(object sender, KeyPressEventArgs e)
         {
+            TextBox textBox = sender as TextBox;
+
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            // Jika karakter pertama adalah angka 0 dan belum ada angka lain dimasukkan sebelumnya
+            else if (e.KeyChar == '0' && textBox.TextLength == 0)
             {
                 e.Handled = true;
             }
@@ -295,7 +309,14 @@ namespace bukuhilmi
 
         private void input_buku_harga_KeyPress(object sender, KeyPressEventArgs e)
         {
+            TextBox textBox = sender as TextBox;
+
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            // Jika karakter pertama adalah angka 0 dan belum ada angka lain dimasukkan sebelumnya
+            else if (e.KeyChar == '0' && textBox.TextLength == 0)
             {
                 e.Handled = true;
             }

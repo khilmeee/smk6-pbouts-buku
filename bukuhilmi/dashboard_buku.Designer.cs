@@ -45,7 +45,7 @@
             this.button_buku_edit = new System.Windows.Forms.Button();
             this.button_buku_delete = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.input_search = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,6 +122,7 @@
             this.input_buku_tahun.Name = "input_buku_tahun";
             this.input_buku_tahun.Size = new System.Drawing.Size(100, 20);
             this.input_buku_tahun.TabIndex = 9;
+            this.input_buku_tahun.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.input_buku_tahun_KeyPress);
             // 
             // label5
             // 
@@ -138,6 +139,7 @@
             this.input_buku_stok.Name = "input_buku_stok";
             this.input_buku_stok.Size = new System.Drawing.Size(100, 20);
             this.input_buku_stok.TabIndex = 11;
+            this.input_buku_stok.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.input_buku_stok_KeyPress);
             // 
             // label6
             // 
@@ -154,6 +156,7 @@
             this.input_buku_harga.Name = "input_buku_harga";
             this.input_buku_harga.Size = new System.Drawing.Size(100, 20);
             this.input_buku_harga.TabIndex = 13;
+            this.input_buku_harga.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.input_buku_harga_KeyPress);
             // 
             // button_buku_add
             // 
@@ -186,6 +189,7 @@
             this.button_buku_delete.TabIndex = 17;
             this.button_buku_delete.Text = "Delete";
             this.button_buku_delete.UseVisualStyleBackColor = true;
+            this.button_buku_delete.Click += new System.EventHandler(this.button_buku_delete_Click);
             // 
             // label7
             // 
@@ -196,12 +200,13 @@
             this.label7.TabIndex = 19;
             this.label7.Text = "Cari";
             // 
-            // textBox7
+            // input_search
             // 
-            this.textBox7.Location = new System.Drawing.Point(57, 14);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(127, 20);
-            this.textBox7.TabIndex = 18;
+            this.input_search.Location = new System.Drawing.Point(57, 14);
+            this.input_search.Name = "input_search";
+            this.input_search.Size = new System.Drawing.Size(127, 20);
+            this.input_search.TabIndex = 18;
+            this.input_search.TextChanged += new System.EventHandler(this.input_search_TextChanged);
             // 
             // dashboard_buku
             // 
@@ -209,7 +214,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.input_search);
             this.Controls.Add(this.button_buku_delete);
             this.Controls.Add(this.button_buku_edit);
             this.Controls.Add(this.button_buku_add);
@@ -253,6 +258,6 @@
         private System.Windows.Forms.Button button_buku_edit;
         private System.Windows.Forms.Button button_buku_delete;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox input_search;
     }
 }
